@@ -1,0 +1,130 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+A slider-button is active when the slider is fully on the right.
+
+Example:
+
+    <slide-button hide-when-active></slide-button>
+
+Example:
+
+    <slide-button title="Slide to unlock"></slide-button>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--slide-title` | Mixin applied to the title | `{}`
+`--slide-container` | Mixin applied to the slide container | `{}`
+`--slider-button` | Mixin applied to the thumb | `{}`
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="slide-button">
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+        box-sizing: border-box;
+      }
+
+      .title {
+        position: relative;
+        color: #8a8a8a;
+        left: 100px;
+        top: -45px;
+        z-index: 0;
+        font-size: 28px;
+        @apply(--slide-title)
+      }
+
+      input[type="range"] {
+        width: 320px;
+        background-color: #72d572;
+        -webkit-appearance: none;
+        border-radius: 2px;
+        transition: opacity 0.5s;
+        position: relative;
+        @apply(--slide-container);
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border-radius: 2px;
+        background-color: rgba(19, 109, 19, 0.8);
+        z-index: 1;
+        width: 85px;
+        position: relative;
+        height: 50px;
+        @apply(--slider-button);
+      }
+    </style>
+    <div id="container">
+      <input id="btn" type="range" class="slideToUnlock" value="0" max="100">
+      <div class="title">[[title]]</div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'slide-button',
+
+      properties: {
+
+        hideWhenActive: {
+          type: Boolean,
+          value: false
+        },
+
+        title: {
+          type: String,
+          value: ''
+        },
+
+        active: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      },
+
+      listeners: {
+        'mouseup': '_mouseUp',
+      },
+
+      _mouseUp: function(e) {
+        if(this.$.btn.value == 100) {
+          this.active = true;
+          this._activate();
+        } else {
+          this.active = false;
+          this._slideBack();
+        }
+      },
+
+      _slideBack: function() {       
+        this.async(function() {
+          if(this.$.btn.value > 0) {
+            this.$.btn.value--;
+            this._slideBack();
+          }
+        }.bind(this), 1);
+      },
+
+      _activate: function() {
+        this.fire('active');
+        if (this.hideWhenActive && this.active) {
+          this.$.container.style.opacity = "0";
+        }
+        if (!this.active) {
+          this.$.container.style.opacity = "1";
+        }      
+      }
+    });
+  </script>
+</dom-module>
