@@ -1,0 +1,29 @@
+{
+  "name": "slide-button",
+  "version": "1.0.1",
+  "authors": [
+    "Jalal Fathi <jfathi.mail@gmail.com>"
+  ],
+  "description": "Unlock button iOS style.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "button",
+    "slide",
+    "unlock"
+  ],
+  "main": "slide-button.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/JaySunSyn/slide-button/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "^4.0.0"
+  }
+}
